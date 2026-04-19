@@ -4,7 +4,7 @@
  * No user input required — runs continuously until destroy() is called.
  * Uses Three.js via import map (bare specifier 'three').
  */
-import * as THREE from 'three';
+import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
 const DEMO_STEPS = [
   { label: 'Visitors',  value: 12400 },
