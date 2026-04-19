@@ -4,7 +4,7 @@
  * Floating metallic cubes + neon grid + particle ring + mouse parallax.
  * Uses Three.js via import map (bare specifier 'three').
  */
-import * as THREE from 'three';
+import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
 export function mountAuthScene(canvasId) {
   const canvas = document.getElementById(canvasId);
