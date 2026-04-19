@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ═══════════════════════════════════════════════════════════
+       SUPABASE CONFIGURATION
+       Replace the content values with your project credentials.
+       Get them from: https://supabase.com/dashboard → Settings → API
+       The anon/public key is safe to include here.
+  ═══════════════════════════════════════════════════════════════ -->
+  <meta name="supabase-url" content="https://gurlzzkbkewmwxwlafqs.supabase.co">
+  <meta name="supabase-key" content="sb_publishable_kiaXQDZLIw62QgARnrNieg_o-OUwrxo">
+  <!-- Import map: maps bare specifier 'three' to our npm-served ES module build.
+       Must appear BEFORE any <script type="module">. -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "/vendor/three.module.js",
+      "@supabase/supabase-js": "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"
+    }
+  }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FunnelScope — Sign in</title>
+  <link rel="icon" href="/favicon.png">
+  <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="stylesheet" href="/assets/css/auth.css">
+</head>
+<body>
+  <div class="auth-layout">
+    <!-- 3D canvas background -->
+    <canvas id="auth-canvas" class="auth-canvas"></canvas>
+
+    <!-- Brand panel (left) -->
+    <div class="auth-brand">
+      <a href="/landing.html" class="auth-logo">
+        <img src="/favicon.png" alt="" width="32">
+        <span>FunnelScope</span>
+      </a>
+      <div class="auth-brand-body">
+        <h2>Funnel clarity.<br>Zero guesswork.</h2>
+        <ul class="auth-perks">
+          <li><span class="perk-icon">⚡</span>AI analysis in under 10s</li>
+          <li><span class="perk-icon">📊</span>3D funnel visualisation</li>
+          <li><span class="perk-icon">🔒</span>Your data stays private</li>
+          <li><span class="perk-icon">📈</span>Historical comparison</li>
+        </ul>
+      </div>
+      <p class="auth-brand-note">Free plan · No credit card needed</p>
+    </div>
+
+    <!-- Form panel (right) -->
+    <div class="auth-form-wrap">
+      <div class="auth-card glass-strong">
+        <!-- Tabs -->
+        <div class="auth-tabs" role="tablist">
+          <button class="auth-tab active" data-target="loginForm"    role="tab" aria-selected="true">Log in</button>
+          <button class="auth-tab"        data-target="registerForm" role="tab" aria-selected="false">Sign up</button>
+        </div>
+
+        <!-- Login -->
+        <form id="loginForm" class="auth-form" novalidate>
+          <div class="field">
+            <label for="loginEmail">Email</label>
+            <input id="loginEmail" type="email" placeholder="you@company.com" autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="loginPassword">Password</label>
+            <div class="pw-wrap">
+              <input id="loginPassword" type="password" placeholder="Your password" autocomplete="current-password">
+              <button type="button" class="pw-toggle" data-for="loginPassword">👁</button>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
+            <span class="btn-label">Log in</span>
+            <span class="spinner"></span>
+          </button>
+          <div class="form-msg" id="loginMsg" role="alert" aria-live="polite"></div>
+        </form>
+
+        <!-- Register -->
+        <form id="registerForm" class="auth-form" hidden novalidate>
+          <div class="field">
+            <label for="regName">Full name</label>
+            <input id="regName" type="text" placeholder="Jane Smith" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="regEmail">Email</label>
+            <input id="regEmail" type="email" placeholder="you@company.com" autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="regPassword">Password <small style="font-weight:400">(min 8 chars)</small></label>
+            <div class="pw-wrap">
+              <input id="regPassword" type="password" placeholder="Create a strong password" autocomplete="new-password">
+              <button type="button" class="pw-toggle" data-for="regPassword">👁</button>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="registerBtn">
+            <span class="btn-label">Create account</span>
+            <span class="spinner"></span>
+          </button>
+          <div class="form-msg" id="registerMsg" role="alert" aria-live="polite"></div>
+        </form>
+
+        <p class="auth-legal">By signing up you agree to our <a href="#">Terms</a> &amp; <a href="#">Privacy Policy</a>.</p>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/assets/js/auth-main.js"></script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Import map: maps bare specifier 'three' to our npm-served ES module build.
+       Must appear BEFORE any <script type="module">. -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "/vendor/three.module.js"
+    }
+  }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FunnelScope — AI Funnel Analytics</title>
+  <meta name="description" content="See exactly where your users drop off. AI-powered 3D funnel analytics for founders and growth teams.">
+  <link rel="icon" href="/favicon.png">
+  <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="stylesheet" href="/assets/css/landing.css">
+</head>
+<body>
+
+<nav class="lnav">
+  <div class="lnav-inner">
+    <a href="/" class="lnav-logo">
+      <img src="/favicon.png" width="28" alt="">
+      <span>FunnelScope</span>
+    </a>
+    <div class="lnav-links">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="/auth.html" class="btn btn-ghost">Log in</a>
+      <a href="/auth.html?mode=register" class="btn btn-primary">Start free →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="badge badge-brand" style="width:fit-content;margin-bottom:24px">✦ AI-Powered Funnel Analytics</div>
+    <h1>See the <span class="text-gradient">leak</span>.<br>Fix the funnel.</h1>
+    <p class="hero-sub">
+      Paste your funnel numbers. Get AI insights, a 3D visualisation, and prioritised fixes — in under 10 seconds.
+    </p>
+    <div class="hero-cta">
+      <a href="/auth.html?mode=register" class="btn btn-primary btn-lg">Get started free →</a>
+      <a href="#how-it-works" class="btn btn-ghost btn-lg">See how it works</a>
+    </div>
+    <p class="hero-note">Free plan · 5 analyses/day · No credit card needed</p>
+  </div>
+  <div class="hero-visual">
+    <canvas id="heroCanvas" class="hero-canvas"></canvas>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="section" id="how-it-works">
+  <div class="section-inner">
+    <p class="section-kicker">Simple by design</p>
+    <h2 class="section-title">Three steps to funnel clarity</h2>
+    <div class="steps-row">
+      <div class="step-card glass">
+        <div class="step-num">01</div>
+        <h3>Add your funnel steps</h3>
+        <p>Enter each stage and user count. Works with any data source — GA, Mixpanel, spreadsheets.</p>
+      </div>
+      <div class="step-card glass">
+        <div class="step-num">02</div>
+        <h3>Get 3D AI analysis</h3>
+        <p>Our AI pinpoints the biggest leak, explains the drop, and gives you ranked fixes — fast.</p>
+      </div>
+      <div class="step-card glass">
+        <div class="step-num">03</div>
+        <h3>Track improvement</h3>
+        <p>Every run is saved. Compare any two funnels side-by-side to measure what's working.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section section-alt" id="features">
+  <div class="section-inner">
+    <p class="section-kicker">Everything you need</p>
+    <h2 class="section-title">Built for founders & growth teams</h2>
+    <div class="features-grid">
+      <div class="feature-card glass">
+        <div class="feat-icon">🌐</div>
+        <h3>3D Funnel Visualisation</h3>
+        <p>Interactive Three.js funnel with hover tooltips, depth, lighting, and drop-off particles.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="feat-icon">🤖</div>
+        <h3>AI-Powered Insights</h3>
+        <p>GPT-4-class analysis that reads your numbers, names the bottleneck, and tells you what to fix.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="feat-icon">📊</div>
+        <h3>Historical Comparison</h3>
+        <p>Compare any two runs. See step-by-step changes and measure the impact of your optimisations.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="feat-icon">⚡</div>
+        <h3>Instant Results</h3>
+        <p>Under 10 seconds from submit to insights. No waiting, no dashboards, just answers.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="feat-icon">🔒</div>
+        <h3>Private & Secure</h3>
+        <p>Dual-token JWT auth, bcrypt passwords, mongo-sanitize, strict multi-tenancy. Enterprise grade.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="feat-icon">📱</div>
+        <h3>Mobile Optimised</h3>
+        <p>Responsive layouts with 2D fallback on low-powered devices. Works everywhere.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="section" id="pricing">
+  <div class="section-inner">
+    <p class="section-kicker">Straightforward pricing</p>
+    <h2 class="section-title">Start free. Go Pro when you're ready.</h2>
+    <div class="pricing-row">
+      <div class="pricing-card glass">
+        <div class="pc-name">Free</div>
+        <div class="pc-price">₹0<span>/forever</span></div>
+        <ul class="pc-features">
+          <li class="ok">✓ 5 analyses / day</li>
+          <li class="ok">✓ AI insights</li>
+          <li class="ok">✓ 3D funnel visual</li>
+          <li class="ok">✓ Saved history</li>
+          <li class="no">✗ Unlimited analyses</li>
+          <li class="no">✗ Historical comparison</li>
+        </ul>
+        <a href="/auth.html?mode=register" class="btn btn-secondary btn-block">Get started</a>
+      </div>
+      <div class="pricing-card pricing-card--pro glass">
+        <div class="pc-featured-badge">Most popular</div>
+        <div class="pc-name">Pro</div>
+        <div class="pc-price">₹499<span>/month</span></div>
+        <ul class="pc-features">
+          <li class="ok">✓ Unlimited analyses</li>
+          <li class="ok">✓ AI insights</li>
+          <li class="ok">✓ 3D funnel visual</li>
+          <li class="ok">✓ Saved history</li>
+          <li class="ok">✓ Historical comparison</li>
+          <li class="ok">✓ Priority support</li>
+        </ul>
+        <a href="/auth.html?mode=register" class="btn btn-primary btn-block">Start Pro →</a>
+        <p class="pc-note">Or ₹3,999/year — save 33%</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section section-cta">
+  <div class="section-inner" style="text-align:center">
+    <h2 class="section-title">Ready to find your biggest leak?</h2>
+    <p style="color:var(--text-muted);font-size:18px;margin-bottom:32px">Join founders and growth teams using FunnelScope.</p>
+    <a href="/auth.html?mode=register" class="btn btn-primary btn-lg">Create free account →</a>
+  </div>
+</section>
+
+<footer class="lfooter">
+  <div class="lfooter-inner">
+    <span>© 2025 FunnelScope. All rights reserved.</span>
+    <div style="display:flex;gap:20px">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+  async function initHero() {
+    try {
+      const { mountLandingScene } = await import('/assets/js/scene-landing.js');
+      const c = document.getElementById('heroCanvas');
+      if (c) {
+        c.width  = c.parentElement?.clientWidth  || window.innerWidth / 2;
+        c.height = c.parentElement?.clientHeight || 480;
+        mountLandingScene('heroCanvas');
+      }
+    } catch (err) {
+      console.warn('[Landing] 3D scene failed:', err.message);
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHero);
+  } else {
+    initHero();
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ═══════════════════════════════════════════════════════════
+       SUPABASE CONFIGURATION
+       Replace the content values with your project credentials.
+       Get them from: https://supabase.com/dashboard → Settings → API
+       The anon/public key is safe to include here.
+  ═══════════════════════════════════════════════════════════════ -->
+  <meta name="supabase-url" content="https://gurlzzkbkewmwxwlafqs.supabase.co">
+  <meta name="supabase-key" content="sb_publishable_kiaXQDZLIw62QgARnrNieg_o-OUwrxo">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FunnelScope — AI Funnel Doctor</title>
+  <link rel="icon" href="/favicon.png">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "/vendor/three.module.js",
+      "@supabase/supabase-js": "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="stylesheet" href="/assets/css/dashboard.css">
+  <link rel="stylesheet" href="/assets/css/ca-chat.css">
+</head>
+<body>
+
+<!-- ── Top Navigation ───────────────────────────────────────── -->
+<nav class="app-nav">
+  <div class="nav-inner">
+    <a href="/index.html" class="nav-logo">
+      <img src="/favicon.png" alt="FunnelScope" width="28">
+      <span>FunnelScope</span>
+      <span class="nav-tagline">AI Funnel Doctor</span>
+    </a>
+    <div class="nav-center">
+      <div class="usage-pill" id="usagePill"></div>
+    </div>
+    <div class="nav-right">
+      <div class="nav-user">
+        <button class="user-btn" id="userBtn" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="userAvatar"></span>
+          <span class="user-name"   id="userName"></span>
+          <span class="user-caret">▾</span>
+        </button>
+        <div class="user-dropdown glass" id="userDropdown" hidden>
+          <div class="dd-header">
+            <strong id="ddName"></strong>
+            <small  id="ddEmail"></small>
+            <span   id="ddPlan" class="badge badge-free">Free</span>
+          </div>
+          <hr class="dd-divider">
+          <button class="dd-item" id="upgradeBtn">⚡ Upgrade to Pro</button>
+          <hr class="dd-divider">
+          <button class="dd-item dd-danger" id="logoutBtn">Sign out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Main Layout ───────────────────────────────────────────── -->
+<div class="app-layout">
+
+  <!-- LEFT: Input + Diagnosis (38%) -->
+  <div class="left-panel">
+
+    <!-- Funnel Input Card -->
+    <div class="input-card glass" id="inputCard">
+      <div class="input-card-head">
+        <div>
+          <p class="kicker">Funnel Builder</p>
+          <h2>Enter your funnel</h2>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="addStepBtn">+ Step</button>
+      </div>
+
+      <form id="funnelForm" novalidate>
+        <div class="step-rows" id="stepRows"></div>
+
+        <div class="meta-row">
+          <div class="field">
+            <label for="industryInput">Industry</label>
+            <input id="industryInput" type="text" placeholder="SaaS, eCommerce…" value="SaaS">
+          </div>
+          <div class="field">
+            <label for="periodInput">Period</label>
+            <input id="periodInput" type="text" placeholder="Last 30 days" value="Last 30 days">
+          </div>
+        </div>
+
+        <div class="limit-banner" id="limitBanner" hidden>
+          <span id="limitText"></span>
+          <button type="button" class="btn btn-primary btn-sm" id="limitUpgradeBtn">Upgrade →</button>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary btn-full" id="analyzeBtn">
+            <span class="btn-label">⚡ Run AI Diagnosis</span>
+            <span class="spinner"></span>
+          </button>
+        </div>
+        <div class="form-notice" id="formNotice" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+
+    <!-- AI Diagnosis Panel (shown after analysis) -->
+    <div class="diagnosis-panel" id="diagnosisPanel" hidden>
+
+      <!-- Diagnosis Summary -->
+      <div class="diag-section glass">
+        <div class="diag-section-head">
+          <span class="diag-icon" id="diagHealthIcon">🔴</span>
+          <div>
+            <p class="kicker">Funnel Analysis</p>
+            <h3 class="diag-title">Diagnosis Summary</h3>
+          </div>
+          <div class="health-badge" id="healthBadge">Critical</div>
+        </div>
+        <p class="diag-summary-text" id="diagSummaryText"></p>
+        <div class="diag-stats-row">
+          <div class="diag-stat">
+            <span class="ds-label">Overall Conv.</span>
+            <span class="ds-value" id="diagConv">—</span>
+          </div>
+          <div class="diag-stat">
+            <span class="ds-label">Health Score</span>
+            <span class="ds-value" id="diagScore">—/100</span>
+          </div>
+          <div class="diag-stat diag-stat--danger">
+            <span class="ds-label">Monthly Loss Est.</span>
+            <span class="ds-value" id="diagLoss">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step-by-Step Breakdown -->
+      <div class="diag-section glass">
+        <p class="kicker">Step Breakdown</p>
+        <h3>Conversion by Stage</h3>
+        <div class="step-breakdown" id="stepBreakdown"></div>
+      </div>
+
+      <!-- Root Cause Analysis -->
+      <div class="diag-section glass" id="rootCauseSection" hidden>
+        <p class="kicker">Root Cause Analysis</p>
+        <h3>Why Users Are Dropping</h3>
+        <div class="root-causes" id="rootCauses"></div>
+      </div>
+
+      <!-- Actionable Fixes -->
+      <div class="diag-section glass" id="fixesSection" hidden>
+        <p class="kicker">Actionable Steps</p>
+        <h3>Recommended Fixes</h3>
+        <ol class="fixes-list-diag" id="fixesDiag"></ol>
+      </div>
+
+    </div>
+
+    <!-- History Panel -->
+    <div class="history-card glass" id="historyCard">
+      <div class="history-head">
+        <div>
+          <p class="kicker">History</p>
+          <h3 id="historyCount">Recent analyses</h3>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost btn-sm" id="refreshBtn" title="Refresh">↻</button>
+          <button class="btn btn-danger btn-sm" id="deleteAllBtn">Delete all</button>
+        </div>
+      </div>
+      <p class="history-empty" id="historyEmpty">No history yet. Run your first diagnosis.</p>
+      <div class="history-list" id="historyList"></div>
+    </div>
+
+  </div><!-- /left-panel -->
+
+  <!-- RIGHT: 3D Visualisation (62%) -->
+  <div class="right-panel">
+
+    <!-- Welcome state -->
+    <div class="welcome-state" id="welcomeState">
+      <div class="welcome-inner">
+        <canvas class="welcome-3d" id="welcome3d"></canvas>
+        <h1>AI Funnel Doctor</h1>
+        <p>Enter your funnel steps and receive an instant diagnosis — where users drop, why it happens, and exactly what to fix.</p>
+        <button class="btn btn-primary" onclick="document.getElementById('analyzeBtn').scrollIntoView({behavior:'smooth'})">
+          Start Diagnosis →
+        </button>
+      </div>
+    </div>
+
+    <!-- 3D Funnel (after analysis) -->
+    <div class="viz-panel" id="vizPanel" hidden>
+      <div class="viz-header">
+        <div>
+          <p class="kicker">3D Visualisation</p>
+          <h3>Interactive Funnel Map</h3>
+        </div>
+        <div class="viz-meta">
+          <span id="vizMeta" class="badge badge-brand">Live</span>
+          <span class="viz-hint">Drag to orbit · Hover for details</span>
+        </div>
+      </div>
+      <div class="funnel3d-wrap" id="funnel3dContainer"></div>
+    </div>
+
+    <!-- Compare section -->
+    <div class="compare-panel glass" id="compareSection" hidden>
+      <div class="compare-head">
+        <div>
+          <p class="kicker">Comparison</p>
+          <h3>Past vs Current</h3>
+        </div>
+        <span id="compareStatus" class="badge badge-brand">Pending</span>
+      </div>
+      <div class="compare-cards" id="compareCards"></div>
+      <div class="step-changes"  id="stepChanges"></div>
+    </div>
+
+  </div><!-- /right-panel -->
+</div><!-- /app-layout -->
+
+<!-- ── Upgrade Modal ──────────────────────────────────────────── -->
+<div class="modal-overlay" id="upgradeModal" hidden>
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div style="text-align:center;margin-bottom:28px">
+      <div style="font-size:44px;margin-bottom:12px">⚡</div>
+      <h2 style="font-size:24px;font-weight:800;margin-bottom:8px">Upgrade to Pro</h2>
+      <p style="color:var(--text-muted)">Unlimited diagnoses · Full AI insights · History comparison</p>
+    </div>
+    <div class="upgrade-plans">
+      <div class="upgrade-plan">
+        <div class="plan-name">Monthly</div>
+        <div class="plan-price">₹499<span>/mo</span></div>
+        <button class="btn btn-secondary btn-block" data-plan="pro_monthly">Choose Monthly</button>
+      </div>
+      <div class="upgrade-plan upgrade-plan--featured">
+        <div class="plan-badge">Save 33%</div>
+        <div class="plan-name">Yearly</div>
+        <div class="plan-price">₹3,999<span>/yr</span></div>
+        <button class="btn btn-primary btn-block" data-plan="pro_yearly">Choose Yearly →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     AI CA CHAT PANEL
+══════════════════════════════════════════════════════════ -->
+
+<!-- Toggle button (always visible, fixed bottom-right) -->
+<div style="position:fixed;bottom:28px;right:28px;z-index:901">
+  <button class="ca-toggle-btn" id="caPanelToggle" title="AI Chartered Accountant">
+    <span class="ca-toggle-icon">🤖</span>
+  </button>
+  <span class="ca-badge" id="caBadge" hidden>0</span>
+</div>
+
+<!-- Slide-in chat panel -->
+<aside class="ca-panel" id="caPanel" aria-label="AI CA Assistant" role="complementary">
+
+  <!-- Header -->
+  <div class="ca-header">
+    <div class="ca-header-avatar">CA</div>
+    <div class="ca-header-info">
+      <span class="ca-header-name">AI Chartered Accountant</span>
+      <span class="ca-header-status">Online · Ready to advise</span>
+    </div>
+    <button class="ca-close-btn" id="caCloseBtn" title="Close">✕</button>
+  </div>
+
+  <!-- Funnel context indicator -->
+  <div class="ca-ctx-bar no-ctx" id="caCtxBar">
+    <span class="ca-ctx-dot"></span>
+    <span id="caCtxText">No funnel loaded — run a diagnosis first</span>
+  </div>
+
+  <!-- Messages -->
+  <div class="ca-messages" id="caMessages"></div>
+
+  <!-- Limit overlay (hidden by default) -->
+  <div class="ca-limit-overlay" id="caLimitOverlay" hidden>
+    <div class="ca-limit-card">
+      <div class="ca-limit-icon">⏳</div>
+      <div class="ca-limit-title">Free insights limit reached</div>
+      <p class="ca-limit-text">
+        You've reached your free analysis limit for now.<br>
+        Your next insights unlock in <strong class="ca-limit-hours">a few hours</strong>.<br>
+        Continue instantly with Pro:
+      </p>
+      <ul class="ca-limit-features">
+        <li>Unlimited AI guidance</li>
+        <li>Deeper financial insights</li>
+        <li>Advanced strategy recommendations</li>
+        <li>Priority response times</li>
+      </ul>
+      <button class="ca-limit-upgrade-btn" id="caLimitUpgradeBtn">
+        ⚡ Unlock Pro Access →
+      </button>
+      <button class="ca-limit-dismiss" id="caLimitDismiss">Maybe later</button>
+    </div>
+  </div>
+
+  <!-- Suggested prompts -->
+  <div class="ca-prompts" id="caPrompts"></div>
+
+  <!-- Input -->
+  <div class="ca-input-row">
+    <textarea
+      class="ca-input"
+      id="caInput"
+      placeholder="Ask your CA anything…"
+      rows="1"
+      maxlength="2000"
+    ></textarea>
+    <button class="ca-send-btn" id="caSendBtn" title="Send">
+      <span>↑</span>
+    </button>
+  </div>
+</aside>
+
+<script type="module" src="/assets/js/dashboard-main.js"></script>
+</body>
+</html>
