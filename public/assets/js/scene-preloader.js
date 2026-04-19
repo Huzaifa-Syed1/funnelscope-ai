@@ -3,7 +3,7 @@
  * Full-screen 3D preloader — particles, rings, brand reveal.
  * Uses Three.js via import map (bare specifier 'three').
  */
-import * as THREE from 'three';
+import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
 export function createPreloader(onComplete) {
   const overlay = document.createElement('div');
