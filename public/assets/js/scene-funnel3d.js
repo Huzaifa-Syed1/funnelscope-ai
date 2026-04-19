@@ -7,7 +7,7 @@
  * OrbitControls-style mouse drag + auto-rotation.
  * Labels rendered as floating HTML (crisp at any resolution).
  */
-import * as THREE from 'three';
+import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
 // ── Colour palette ───────────────────────────────────────────────
 const COL = {
