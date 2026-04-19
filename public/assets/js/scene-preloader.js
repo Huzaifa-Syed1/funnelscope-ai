@@ -52,7 +52,7 @@ export function createPreloader(onComplete) {
 
   const particleGeo = new THREE.BufferGeometry();
   particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  particleGeo.setAttribute('color',    new THREE.BufferAttribute(colors, 3));
+  particleGeo.setAttribute('acolor',    new THREE.BufferAttribute(colors, 3));
   particleGeo.setAttribute('size',     new THREE.BufferAttribute(sizes, 1));
 
   const particleMat = new THREE.ShaderMaterial({
@@ -62,12 +62,12 @@ export function createPreloader(onComplete) {
     },
     vertexShader: `
       attribute float size;
-      attribute vec3  color;
+      attribute vec3  acolor;
       varying   vec3  vColor;
       varying   float vAlpha;
       uniform   float time;
       void main() {
-        vColor = color;
+        vColor = acolor;
         vec3 pos = position;
         pos.y += sin(time * 0.4 + position.x * 0.1) * 0.8;
         pos.x += cos(time * 0.3 + position.z * 0.08) * 0.5;
