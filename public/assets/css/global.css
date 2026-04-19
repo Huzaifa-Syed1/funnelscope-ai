@@ -283,3 +283,43 @@ input, textarea { font-family: inherit; }
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .glow-text { text-shadow: 0 0 30px rgba(108,71,255,0.5); }
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px 20px;
+
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(10px);
+
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  z-index: 1000;
+}
+
+.footer-left {
+  letter-spacing: 0.5px;
+}
+
+.footer-right {
+  font-weight: 500;
+}
+
+.author-name {
+  color: #ffffff;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.author-name:hover {
+  opacity: 0.7;
+}
